@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="adivinar.css" />
+  <title>Adivinar Número</title>
+</head>
+
+<body>
+  <script>
+    // Función para jugar otra partida, resetea los valores, activa los botones y elige un nuevo número a adivinar
+    let numSecreto = Math.floor(Math.random() * 100);
+    let vida = 10;
+
+    //Creamos el título
+    document.write(
+      "<h1 id='titulo'>Intenta adivinar el número secreto <br><span id='Oportunidades'></span><br><span id='pista'></span></h1>"
+    );
+
+    function crearBotones() {
+      document.write("<table><tr>");
+      for (let i = 1; i <= 100; i++) {
+        document.write(
+          `<td><button id="${i}" onclick="comprobar(this.id)">${i}</button></td>`
+        );
+        if (i % 10 == 0 && i < 100) {
+          document.write("</tr><tr>");
+        }
+        if (i == 100) {
+          document.write("</tr>");
+          document.write("</table>");
+        }
+      }
+    }
+    //Llamamos a la función para crear los 100 botones
+    crearBotones();
+  </script>
+  <!-- Este botón va a aparecer o desaparecer según si tiene el atributo disabled o no -->
+  <button id="repetir" onclick="jugarOtraVez()" disabled="true">
+    Jugar Otra Vez
+  </button>
+  <script>
+    var titulo = document.getElementById("titulo")
+    var Oportunidades = document.getElementById("Oportunidades")
+    var repetir = document.getElementById("repetir") // botón html para jugar otra vez
+    var pista = document.getElementById("pista") //Pista que va a orientar al usuario a la hora de adivinar el número
+    Oportunidades.innerHTML = `Oportunidades: ${vida}`;
+
+    function jugarOtraVez() {
+      numSecreto = Math.floor(Math.random() * 100);
+      vida = 10;
+      titulo.innerHTML =
+        "Intenta adivinar el número secreto <br><span id='Oportunidades'></span><br><span id='pista'></span>";
+      Oportunidades = document.getElementById("Oportunidades")
+      Oportunidades.innerHTML = `Oportunidades: ${vida}`;
+      pista = document.getElementById("pista")
+      for (let i = 1; i <= 100; i++) { //Con este bucle eliminamos el atributo disabled de los botones y recuperamos su color original
+        document.getElementById(i).removeAttribute("disabled");
+        document.getElementById(i).style.backgroundColor =
+          "rgb(35, 235, 168)";
+      }
+      repetir.setAttribute("disabled", "true");
+    }
+
+
+    // Función para dar pistas al usuario respecto al número a adivinar
+    function guia(intento) {
+      if (intento - numSecreto < 0) {
+        pista.innerHTML =
+          "El número secreto es mayor que el que has pulsado";
+      } else {
+        pista.innerHTML =
+          "El número secreto es menor que el que has pulsado";
+      }
+    }
+    // Función que usaremos para comprobar si el intento es un acierto o un fallo y aplicar las consecuencias pertinentes
+    function comprobar(intento) {
+      if (intento == numSecreto) {
+        document.getElementById(intento).style.backgroundColor = "green";
+        titulo.innerHTML = `Enhorabuena, has conseguido adivinar el número , te han sobrado ${vida} Oportunidades`;
+        deshabilitar();
+        repetir.removeAttribute("disabled");
+      } else {
+        guia(intento);
+        document.getElementById(intento).style.backgroundColor = "red";
+        document.getElementById(intento).setAttribute("disabled", "true");
+        vida -= 1;
+        Oportunidades.innerHTML = `Oportunidades: ${vida}`;
+        if (vida == 0) {
+          document.getElementById(
+            "titulo"
+          ).innerHTML = `No has conseguido adivinar el número secreto :( <br><br><span id='Oportunidades'>El número secreto es: ${numSecreto}</span>`;
+          deshabilitar();
+          repetir.removeAttribute("disabled");
+        }
+      }
+    }
+    // Función para deshabilitar los botones en caso de victoria o derrota
+    function deshabilitar() {
+      for (let i = 1; i <= 100; i++) {
+        document.getElementById(i).setAttribute("disabled", "true");
+      }
+    }
+  </script>
+</body>
+
+</html>

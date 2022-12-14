@@ -1,0 +1,34 @@
+button {
+    width: 160.96px;
+    height: 96px;
+    margin: 10px;
+    color: white;
+    background-color: rgb(35, 235, 168);
+    border: none;
+    border-radius: 5px;
+    font-size: 50px;
+
+}
+table{
+    align-self: center;
+    margin: 0px auto;
+    display: block;
+    width: fit-content;
+}
+h1{
+    text-align: center;
+    font-size: 70px;
+}
+html{
+    background-color: rgb(161, 90, 227);
+}
+#repetir{
+    background-color: darkgreen;
+    display: block;
+    margin: 0px auto;
+    display: block;
+    width: fit-content;
+}
+#repetir:disabled{
+    display: none;
+}
